@@ -7,7 +7,7 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-class DBBokk(Base):
+class DBBook(Base):
     __tablename__ = "books"
 
     id = Column(Integer, primary_key=True, index=True)
