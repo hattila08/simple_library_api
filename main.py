@@ -55,3 +55,15 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.delete(db_book)
     db.commit()
     return {"success": True}
+
+@app.put("/books/{book_id}", response_model=BookResponse)
+def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
+    db_book = db.query(DBBook).where(DBBook.id == book_id).first()
+    if db_book is None:
+        raise HTTPException(status_code=404, detail="Könyv nem található")
+    db_book.title = book.title
+    db_book.author = book.author
+    db_book.year = book.year
+    db.commit()
+    db.refresh(db_book)
+    return db_book
