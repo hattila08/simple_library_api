@@ -1,4 +1,4 @@
-from FastAPI import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI(title = "Könyvtár API")
