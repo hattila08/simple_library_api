@@ -46,3 +46,12 @@ def get_book(book_id: int, db: Session = Depends(get_db)):
     if db_book is None:
         raise HTTPException(status_code=404, detail="Könyv nem található")
     return db_book
+
+@app.delete("/books/{book_id}")
+def delete_book(book_id: int, db: Session = Depends(get_db)):
+    db_book = db.query(DBBook).where(DBBook.id == book_id).first()
+    if db_book is None:
+        raise HTTPException(status_code=404, detail="Könyv nem található")
+    db.delete(db_book)
+    db.commit()
+    return {"success": True}
