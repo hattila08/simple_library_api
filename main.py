@@ -10,7 +10,7 @@ class BookCreate(BaseModel):
     author: str
     year: int
 
-class BookResponse(BaseModel):
+class BookResponse(BookCreate):
     id: int
 
     class Config:
@@ -29,7 +29,7 @@ def read_root():
     return {"message": "Üdvözlünk a Könyvtár API-ban!"}
 
 @app.post("/books/", response_model=BookResponse)
-def create_book(book: BookCreate, db: Session = next(get_db())):
+def create_book(book: BookCreate, db: Session = Depends(get_db)):
     db_book = DBBook(title=book.title, author=book.author, year=book.year)
     db.add(db_book)
     db.commit()
